@@ -1,0 +1,60 @@
+---
+# ✅ Documento maestro funcional – InfraBuilder: Definición de Etiquetas
+# Sistema: BestanleyCreations – Infraestructura 24/7
+# Módulo: YML-INFRA-ETIQUETAS-V1
+# Fecha: 2025-06-17
+# Versión: v1.0.0
+# Estado: ACTIVO ✅
+
+openapi: 3.1.0
+info:
+  title: Definición de Etiquetas Dinámicas – InfraBuilder IA
+  description: |
+    Documento YAML que define las etiquetas dinámicas oficiales del sistema BestanleyCreations
+    para operaciones dentro de Make y Google Sheets. Asegura mapeo correcto, ejecución lógica,
+    control de flujos condicionales, y compatibilidad con los módulos: Watch Files, Search Rows Advanced,
+    Get Rows y Update Rows.
+  version: 1.0.0
+
+x-id-oficial: YML-INFRA-ETIQUETAS-V1
+x-agente: InfraBuilder
+x-validado_por: [InfraBuilder IA, PromptEngineer, CEO, C2, C1, Guionista, Pipelines]
+x-fecha_validacion: 2025-06-17
+
+etiquetas:
+  - nombre: documento_activo
+    tipo: boolean
+    logica: "if(1.Trashed = false; true; false)"
+
+  - nombre: infra_builder_activo
+    tipo: boolean
+    logica: "if(1.Owned By Me = true and 1.Trashed = false and 1.Capabilities: Can Edit = true; true; false)"
+
+  - nombre: es_documento_generativo
+    tipo: boolean
+    logica: "if(contains(1.Name; '[GEN]') and 1.Mime Type = application/vnd.google-apps.document; true; false)"
+
+  - nombre: contenido_valido
+    tipo: boolean
+    logica: "if(1.Mime Type != application/octet-stream and 1.Trashed = false and 1.Capabilities: Can Edit = true; true; false)"
+
+  - nombre: requiere_revision_manual
+    tipo: boolean
+    logica: "if(or(1.Capabilities: Can Edit = false; contains(1.Name; 'REVISAR'); 1.Modified By Me = false); true; false)"
+
+  - nombre: proyecto_en_foco
+    tipo: boolean
+    logica: "if(or(contains(1.Name; 'Bestanleycreations'); contains(1.Name; 'Prology by Bestanley'); contains(1.Name; 'Bestanley Universe')); true; false)"
+
+  - nombre: ejecutar_rows
+    tipo: string
+    logica: "switch(1.Name; 'GetRows'; get_rows; 'UpdateRows'; update_rows; 'default')"
+
+x-observaciones:
+  - Todas las etiquetas aquí listadas deben estar registradas en el módulo Set Multiple Variables
+  - El orden de ejecución y mapeo afecta directamente la activación de rutas en Make
+  - Este YAML debe estar alojado en la carpeta `1.03 – Automatización JSON`
+  - Revisión técnica mensual por C2
+  - Cambios estructurales deben ser aprobados por InfraBuilder IA
+
+

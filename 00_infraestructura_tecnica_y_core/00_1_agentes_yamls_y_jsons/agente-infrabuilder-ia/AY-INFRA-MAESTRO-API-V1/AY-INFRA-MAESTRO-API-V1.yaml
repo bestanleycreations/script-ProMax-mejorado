@@ -1,0 +1,107 @@
+# ✅ Validación interna completada el 17/05/2025
+# Este documento fue revisado, aprobado y optimizado para flujo paralelo por **InfraBuilder IA**
+# Compatible con los tres entornos:
+# - 🛍️ Bestanleycreations (Ecommerce y productos visuales)
+# - 📚 Prology by Bestanley (Narrativa, editorial, arte emocional)
+# - 🌌 Bestanley Universe (Series, canales de YouTube, narrativas multiformato)
+#
+# 🔁 Arquitectura con **flujo paralelo asincrónico** activado
+# 🧠 Controlado por buffers inteligentes compartidos (Google Drive, GitHub, Airtable, Sheets, Notion, Tana)
+# 💸 Optimización avanzada para reducción de créditos, activación por demanda, y sincronización dinámica
+#
+# 🧩 Este agente forma parte de una infraestructura escalable, robusta y con autorreparación inteligente
+# 🔒 Incluye monitoreo anti-error (400–500), duplicaciones y rutas no autorizadas
+#
+# 🚀 Infraestructura certificada por InfraBuilder IA
+# 🕓 Fecha de Validación: 17/05/2025
+# 📂 Código del agente: AG-INFRA-BC-2025-V1
+
+openapi: 3.1.0
+info:
+  title: InfraBuilder IA – Supervisor de Infraestructura y Automatización
+  description: API oficial de InfraBuilder IA para gestionar, supervisar y proteger toda la infraestructura de automatización en el ecosistema Bestanleycreations.
+  version: 1.0.0
+
+servers:
+  - url: https://api.infrabuilder.bestanley.com/v1
+    description: Endpoint oficial para operaciones estructurales y técnicas.
+
+paths:
+  /verificar-integridad:
+    post:
+      operationId: verificarIntegridad
+      summary: Verifica que las conexiones, estructuras y documentos técnicos están operativos y sin errores.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agente_id:
+                  type: string
+                  description: ID del agente que desea verificar su integridad.
+                estructura_referencia:
+                  type: string
+                  description: Estructura lógica esperada para comparación (JSON/YAML base).
+                nivel_detalle:
+                  type: string
+                  enum: [bajo, medio, alto]
+                  description: Nivel de profundidad de validación.
+      responses:
+        '200':
+          description: Integridad confirmada o advertencias detectadas.
+        '400':
+          description: Error de sintaxis o datos inválidos.
+        '500':
+          description: Fallo crítico en validación técnica.
+
+  /autocorregir-errores:
+    post:
+      operationId: autocorregirErrores
+      summary: Ejecuta protocolo de autocorrección ante errores 400, 404, 500 o caídas de servicios.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                error_tipo:
+                  type: string
+                  enum: [400, 404, 500]
+                  description: Código del error detectado.
+                agente_afectado:
+                  type: string
+                  description: Nombre del agente afectado.
+                descripcion:
+                  type: string
+                  description: Descripción detallada del error o incidente.
+      responses:
+        '200':
+          description: Protocolo de corrección ejecutado.
+        '500':
+          description: Fallo en el intento de corrección o incidente mayor detectado.
+
+  /monitorear-buffers:
+    post:
+      operationId: monitorearBuffers
+      summary: Analiza el estado de buffers internos como Drive, GitHub, Sheets, Airtable, etc.
+      requestBody:
+        required: false
+      responses:
+        '200':
+          description: Estado actualizado de todos los buffers.
+        '500':
+          description: Fallo en acceso a alguno de los buffers.
+
+  /generar-reporte-eficiencia:
+    get:
+      operationId: generarReporteEficiencia
+      summary: Genera un informe sobre el uso de recursos técnicos y eficiencia de procesos automatizados.
+      responses:
+        '200':
+          description: Informe generado con KPIs técnicos.
+        '500':
+          description: Error al generar el informe.
+

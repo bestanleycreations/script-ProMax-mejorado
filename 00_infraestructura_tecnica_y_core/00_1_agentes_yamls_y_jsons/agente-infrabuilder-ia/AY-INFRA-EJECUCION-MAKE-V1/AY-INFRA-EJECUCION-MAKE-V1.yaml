@@ -1,0 +1,99 @@
+---
+# ✅ Documento maestro funcional y escalable
+# Sistema oficial: BestanleyCreations – Infraestructura 24/7
+# Código del módulo: AY-INFRA-EJECUCION-MAKE-V1
+# Carpeta de almacenamiento: 1.03 – Automatizaciones (YAML – SCOPEs – API)
+# Fecha de última revisión: 2025-07-16
+# Estado: ACTIVO ✅
+# Validado por: InfraBuilder IA, C2, PromptEngineer, CEO
+# Soporte: VSCode + GitHub (sin Google, sin hojas de cálculo externas)
+
+openapi: 3.1.0
+info:
+  title: InfraBuilder ProMax – Ejecución Dinámica Make
+  description: |
+    Módulo de ejecución principal del agente InfraBuilder IA.
+    Lógica actualizada para lectura dinámica de filas (agentes), uso de ToolCode y gestión escalable desde Notion.
+    Compatible con el entorno Make, VSCode, GitHub y buffers IA personalizados.
+  version: 1.0.1
+
+x-id-oficial: AY-INFRA-EJECUCION-MAKE-V1
+x-tipo: ejecucion_dinamica
+x-agente: InfraBuilder
+x-validado_por:
+  - InfraBuilder IA
+  - PromptEngineer
+  - C1
+  - C2
+  - CEO
+x-fecha_validacion: 2025-07-16
+
+paths:
+  /infra-builder/ejecutar:
+    post:
+      summary: Ejecutar agente InfraBuilder (versión dinámica)
+      operationId: iniciarEjecucionInfraBuilder
+      description: |
+        Lanza el proceso completo: lectura de agentes desde tabla Notion, análisis de etiquetas, activación de rutas técnicas, limpieza estructural y control IA.
+        Uso exclusivo del módulo ToolCode (sin ToolSetMultipleVariables).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hoja_origen:
+                  type: string
+                  example: "Base de Agentes Notion – Infraestructura"
+                filas_objetivo:
+                  type: string
+                  default: "dinámico"
+                  description: Número de filas (agentes) a procesar. Si se indica 'dinámico', se cuentan automáticamente los agentes activos.
+                modo_debug:
+                  type: boolean
+                  default: false
+                etiquetas:
+                  type: array
+                  items:
+                    type: string
+                  description: Lista de etiquetas estructurales asociadas a cada agente.
+                control_errores:
+                  type: boolean
+                  default: true
+                  description: Activa o desactiva el sistema de autocorrección y monitoreo inteligente.
+      responses:
+        '200':
+          description: InfraBuilder ejecutado correctamente (procesos activados y verificados)
+        '500':
+          description: Error en ejecución – verificar buffers, etiquetas o compatibilidad de rutas
+
+components:
+  schemas:
+    Variable:
+      type: object
+      properties:
+        nombre:
+          type: string
+        tipo:
+          type: string
+          enum: [boolean, string, array, object, number]
+        activa:
+          type: boolean
+        valor_predeterminado:
+          type: string
+
+x-meta:
+  relacionado_con:
+    - Tabla dinámica de agentes – Notion (27+ agentes activos)
+    - Escenario Make: ToolCode + Router dinámico
+    - Buffers IA internos: VSCode, GitHub, Airtable, Notion (sin Google)
+  limpieza_automatica: true
+  versionamiento_controlado: true
+  modulo_usado: ToolCode
+  notas: |
+    Esta versión sustituye al modelo anterior basado en ToolSetMultipleVariables y hojas de cálculo Google.
+    La cantidad de agentes ya supera los 27 y sigue creciendo, por lo que la lógica ahora es 100% dinámica.
+    Este documento está diseñado para no requerir actualización constante salvo ajustes técnicos mayores.
+    Infraestructura sin jaulas. Abierta, adaptable y regenerativa por diseño.
+    
