@@ -1,0 +1,80 @@
+{
+  "name": "Generador_YAML_Automático_V1 - BLOQUE 1",
+  "description": "Bloque 1 del escenario Make: Webhook inicial, Router de tipo, y módulo de auditoría de campos requeridos.",
+  "flow": [
+    {
+      "id": "m1",
+      "module": "webhook",
+      "version": 1,
+      "name": "WH_GenerarYAML (Trigger)",
+      "parameters": {
+        "method": "POST",
+        "expected_body": {
+          "tipo": "",
+          "nombre": "",
+          "relacionado_con": []
+        }
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "path": "m1"
+      }
+    },
+    {
+      "id": "m2",
+      "module": "router",
+      "version": 1,
+      "name": "ROUTER_TipoYAML",
+      "metadata": {
+        "designer": { "x": 200, "y": 0 },
+        "path": "m2"
+      }
+    },
+    {
+      "id": "m3",
+      "module": "tool.code",
+      "version": 1,
+      "name": "Auditoría Inicial",
+      "parameters": {
+        "code": "required_fields = ['nombre', 'tipo']\nfor f in required_fields:\n    if f not in input:\n        raise Exception(f'Missing field: {f}')\nif not input['nombre'].startswith('AY-') and not input['nombre'].startswith('AG-') and not input['nombre'].startswith('CANVA-'):\n    raise Exception('Nombre debe empezar por \\\"AY-\\\", \\\"AG-\\\" o \\\"CANVA-\\\"')\n\noutput = {\n  'nombre': input['nombre'],\n  'tipo': input['tipo'],\n  'relacionado_con': input.get('relacionado_con', [])\n}"
+      },
+      "metadata": {
+        "designer": { "x": 400, "y": -100 },
+        "path": "m2.m3",
+        "routes": [
+          {
+            "from": "m2",
+            "to": "m3",
+            "filter": {
+              "type": "text",
+              "text": "{{m1.tipo}}",
+              "operator": "exist",
+              "operand": "exist"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "m1",
+      "to": "m2",
+      "points": [[100, 0], [200, 0]]
+    },
+    {
+      "from": "m2",
+      "to": "m3",
+      "points": [[300, 0], [400, -100]],
+      "filter": {
+        "type": "text",
+        "text": "{{m1.tipo}}",
+        "operator": "exist",
+        "operand": "exist"
+      }
+    }
+  ],
+  "trigger": {
+    "module": "m1"
+  }
+}

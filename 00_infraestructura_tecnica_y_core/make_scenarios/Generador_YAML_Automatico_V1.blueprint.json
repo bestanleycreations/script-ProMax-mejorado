@@ -1,0 +1,262 @@
+{
+  "name": "Generador_YAML_Automático_V1",
+  "label": "Generador Automático de YAMLs para Ecosistema PROMAX",
+  "description": "Escenario Make que automatiza la generación, validación y commit de archivos YAML de definición a GitHub, y su registro en Notion. Incluye lógica predictiva de rutas para el crecimiento futuro del ecosistema Bestanleycreations.",
+  "version": 1,
+  "flow": [
+    {
+      "id": "m1",
+      "module": "webhook",
+      "version": 1,
+      "name": "WH_GenerarYAML (Trigger)",
+      "parameters": {
+        "method": "POST",
+        "expected_body": {
+          "tipo": "",
+          "nombre": "",
+          "relacionado_con": []
+        }
+      },
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "path": "m1"
+      }
+    },
+    {
+      "id": "m2",
+      "module": "router",
+      "version": 1,
+      "name": "ROUTER_TipoYAML",
+      "metadata": {
+        "designer": {
+          "x": 200,
+          "y": 0
+        },
+        "path": "m2"
+      }
+    },
+    {
+      "id": "m3",
+      "module": "tool.code",
+      "version": 1,
+      "name": "Auditoría Inicial",
+      "parameters": {
+        "code": "required_fields = ['nombre', 'tipo']\nfor f in required_fields:\n    if f not in input:\n        raise Exception(f'Missing field: {f}')\nif not input['nombre'].startswith('AY-') and not input['nombre'].startswith('AG-') and not input['nombre'].startswith('CANVA-'):\n    raise Exception('Nombre debe empezar por \"AY-\", \"AG-\" o \"CANVA-\"')\n\noutput = {'nombre': input['nombre'], 'tipo': input['tipo'], 'relacionado_con': input.get('relacionado_con', [])}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 400,
+          "y": -100
+        },
+        "path": "m2.m3",
+        "routes": [
+          {
+            "from": "m2",
+            "to": "m3",
+            "filter": {
+              "type": "text",
+              "text": "{{m1.tipo}}",
+              "operator": "exist",
+              "operand": "exist"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "m4",
+      "module": "http",
+      "version": 1,
+      "name": "Validación InfraBuilder (HTTP)",
+      "parameters": {
+        "method": "POST",
+        "url": "https://infra-builder.local/api/validate",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "nombre": "{{m3.nombre}}",
+          "tipo": "{{m3.tipo}}"
+        }
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": -100
+        },
+        "path": "m3.m4"
+      }
+    },
+    {
+      "id": "m5",
+      "module": "tool.code",
+      "version": 1,
+      "name": "Generación YAML",
+      "parameters": {
+        "code": "from datetime import datetime\nimport yaml\n\nyaml_struct = {\n    'id': input['nombre'],\n    'nombre': input['nombre'].replace('-', ' ').title(),\n    'tipo': input['tipo'],\n    'versión': 'V1',\n    'proyecto': 'Bestanleycreations – Infraestructura Pro Max',\n    'relacionado_con': input.get('relacionado_con', []),\n    'creado_en': datetime.utcnow().isoformat() + 'Z'\n}\n\noutput = {'contenido_yaml': yaml.dump(yaml_struct, allow_unicode=True, sort_keys=False), 'nombre': input['nombre'], 'tipo': input['tipo'], 'relacionado_con': input.get('relacionado_con', [])}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 800,
+          "y": -100
+        },
+        "path": "m4.m5"
+      }
+    },
+    {
+      "id": "m6",
+      "module": "tool.code",
+      "version": 1,
+      "name": "Preparar Metadatos de Archivo (m4 actualizado)",
+      "parameters": {
+        "code": "import re\nimport os\n\n# Entradas del escenario\nnombre = input['nombre']\ntipo = input['tipo'].lower()\n\nnombre_archivo_base = nombre + '.yaml'\nnombre_snake = re.sub(r'[^a-zA-Z0-9]+', '-', nombre).lower().strip('-')\n\ndef determinar_ruta(yaml_id, yaml_type, nombre_snake_case):\n    # Mapeo de prefijos/nombres a rutas base en el repositorio\n    base_path_mapping = {\n        'prology': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-prology-ia/',\n        'universe': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-universe-ia/',\n        'aicomposer': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-ai-composer-ia/',\n        \n        'social-media': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-canales-sociales/',\n        'redes-sociales': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-canales-sociales/',\n        'tiktok': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-canales-sociales/',\n        'instagram': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-canales-sociales/',\n        'youtube': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-canales-sociales/',\n\n        'shopify': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-ecommerce-pod/',\n        'pod': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-ecommerce-pod/',\n        'etsy': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-ecommerce-pod/',\n        'marketplace': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agentes-ecommerce-pod/',\n\n        'agente-infrabuilder-ia': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-infrabuilder-ia/',\n        'agente-adobe-suite-promax': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-adobe-suite-promax/',\n        'music_sound_engineer': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/music_sound_engineer/',\n        'infraestructura/canva': '00_infraestructura_tecnica_y_core/infraestructura/canva/'\n    }\n\n    type_base_path_mapping = {\n        'módulo_infraestructura': '00_infraestructura_tecnica_y_core/infraestructura/',\n        'agente_virtual': '00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/',\n        'recurso_contenido': '03_recursos_externos/',\n        'escenario_make': 'make_scenarios/el_norte_1.7x_promax/',\n        'documentacion': '00_infraestructura_tecnica_y_core/documentacion/'\n    }\n\n    final_base_path = '00_infraestructura_tecnica_y_core/otros_yamls/' \n    \n    sorted_keys = sorted(base_path_mapping.keys(), key=len, reverse=True)\n    for key in sorted_keys:\n        if key in yaml_id.lower() or key == yaml_id.lower():\n            final_base_path = base_path_mapping[key]\n            break\n    else:\n        final_base_path = type_base_path_mapping.get(yaml_type, final_base_path)\n\n    yaml_directo_en_base_path = [\n        'AY-INFRA-YAML-GENERADOR',\n        'AY-MUSIC-BC-2025-V1',\n        'AY-INFRA-CONTROL-TOTAL-V2',\n        'VP-PROMAX-VISUAL',\n        'AV-PROMAX-AUDIOVISUAL',\n        'AY-INFRA-MAESTRO-ESCENARIO-V1',\n        'AY-INFRA-MAESTRO-API-V1',\n        'AY-INFRA-NOTION-COLUMNAS-V1',\n        'AY-INFRA-ETIQUETAS-V1',\n        'AG-INFRA-BC-2025-V1',\n        'CANVA-ID-V1'\n    ]\n\n    if yaml_id in yaml_directo_en_base_path:\n        sub_path_to_file = \"\" \n    else:\n        sub_path_to_file = f\"{nombre_snake_case}/\"\n\n    full_path = os.path.join(final_base_path, sub_path_to_file, nombre_archivo_base)\n    return os.path.normpath(full_path).replace(os.sep, '/')\n\nruta_final = determinar_ruta(nombre, tipo, nombre_snake)\n\noutput = {\n    \"nombre_archivo\": nombre_archivo_base,\n    \"ruta_github\": ruta_final\n}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 1000,
+          "y": -100
+        },
+        "path": "m5.m6"
+      }
+    },
+    {
+      "id": "m7",
+      "module": "tool.code",
+      "version": 1,
+      "name": "Payload Notion Log",
+      "parameters": {
+        "code": "from datetime import datetime\n\npreview = '\\n'.join(input['contenido_yaml'].splitlines()[:10])\n\noutput = {\n  'notion_payload': {\n    'Nombre': input['nombre'],\n    'Tipo': input['tipo'],\n    'Archivo': input['ruta_github'],\n    'Preview': preview,\n    'Fecha': datetime.utcnow().isoformat() + 'Z',\n    'Relaciones': ', '.join(input.get('relacionado_con', [])), \n    'Status GitHub': '', \n    'HTTP Code': 0 \n  }\n}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": -200
+        },
+        "path": "m6.m7"
+      }
+    },
+    {
+      "id": "m8",
+      "module": "notion.createDatabaseItem",
+      "version": 1,
+      "name": "Notion > Log",
+      "parameters": {
+        "connection": "notion_connection",
+        "database_id": "YAML_Generator_Logs",
+        "fields": "{{m7.notion_payload}}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 1400,
+          "y": -200
+        },
+        "path": "m7.m8"
+      }
+    },
+    {
+      "id": "m9",
+      "module": "tool.code",
+      "version": 1,
+      "name": "GitHub Commit Automático (m7 actualizado)",
+      "parameters": {
+        "code": "import base64, requests\n\ncontenido_yaml = input['contenido_yaml']\nnombre_yaml = input['nombre']\nruta_github = input['ruta_github']\n\nusuario = 'bestanleycreations'\nrepo = 'infraestructura'\nbranch = 'main'\ntoken = variables.get('GITHUB_TOKEN')\n\ncontenido_base64 = base64.b64encode(contenido_yaml.encode('utf-8')).decode('utf-8')\n\nurl_archivo = f'https://api.github.com/repos/{usuario}/{repo}/contents/{ruta_github}'\n\nheaders = {\n    'Authorization': f'Bearer {token}',\n    'Accept': 'application/vnd.github+json',\n    'X-GitHub-Api-Version': '2022-11-28'\n}\n\nsha = None\nget_response = requests.get(url_archivo, headers=headers)\nif get_response.status_code == 200:\n    data_existente = get_response.json()\n    if 'sha' in data_existente:\n        sha = data_existente['sha']\n\npayload = {\n    'message': f'Commit automático: YAML {nombre_yaml} generado por InfraBuilder',\n    'content': contenido_base64,\n    'branch': branch\n}\n\nif sha:\n    payload['sha'] = sha\n    status_commit = 'Archivo existente, se actualizará'\nelse:\n    status_commit = 'Archivo nuevo, se creará'\n\nput_response = requests.put(url_archivo, headers=headers, json=payload)\n\noutput = {\n    'ruta_github': ruta_github,\n    'status_commit': status_commit,\n    'http_code': put_response.status_code,\n    'response_json': put_response.json()\n}"
+      },
+      "metadata": {
+        "designer": {
+          "x": 1200,
+          "y": 0
+        },
+        "path": "m6.m9"
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "m1",
+      "to": "m2",
+      "points": [
+        [100, 0],
+        [200, 0]
+      ]
+    },
+    {
+      "from": "m2",
+      "to": "m3",
+      "points": [
+        [300, 0],
+        [400, -100]
+      ],
+      "filter": {
+        "type": "text",
+        "text": "{{m1.tipo}}",
+        "operator": "exist",
+        "operand": "exist"
+      }
+    },
+    {
+      "from": "m3",
+      "to": "m4",
+      "points": [
+        [500, -100],
+        [600, -100]
+      ]
+    },
+    {
+      "from": "m4",
+      "to": "m5",
+      "points": [
+        [700, -100],
+        [800, -100]
+      ]
+    },
+    {
+      "from": "m5",
+      "to": "m6",
+      "points": [
+        [900, -100],
+        [1000, -100]
+      ]
+    },
+    {
+      "from": "m6",
+      "to": "m7",
+      "points": [
+        [1100, -100],
+        [1200, -200]
+      ]
+    },
+    {
+      "from": "m7",
+      "to": "m8",
+      "points": [
+        [1300, -200],
+        [1400, -200]
+      ]
+    },
+    {
+      "from": "m6",
+      "to": "m9",
+      "points": [
+        [1100, -100],
+        [1200, 0]
+      ]
+    }
+  ],
+  "variables": [
+    {
+      "name": "GITHUB_TOKEN",
+      "type": "text",
+      "value": "<TU_TOKEN_AQUÍ>",
+      "is_protected": true
+    }
+  ],
+  "trigger": {
+    "module": "m1"
+  }
+}
