@@ -1,0 +1,39 @@
+id: AY-INFRA-YAML-GENERADOR
+nombre: Generador de YAML Inteligente
+versión: V1
+tipo: módulo_infraestructura
+proyecto: Bestanleycreations – Infraestructura Pro Max
+
+descripción: >
+  Módulo encargado de generar automáticamente archivos YAML estandarizados para agentes, recursos, automatizaciones y componentes del sistema Bestanleycreations. Utiliza prompts internos, estructuras predefinidas y variables contextuales para optimizar la creación, evitar errores humanos y asegurar coherencia total.
+
+relacionado_con:
+  - InfraBuilder IA
+  - AG-LEGAL-BC-2025-V2
+  - AG-CANVA-BSC-V1
+  - Todos los módulos AY asociados
+
+activado_por:
+  - Petición directa del CEO o cerebro generativo
+  - Solicitud de nuevo agente, recurso o automatización
+  - README de referencia correspondiente
+
+funciones:
+  - Creación de estructuras YAML adaptadas al tipo de módulo
+  - Inserción automática de campos obligatorios y personalizados
+  - Validación sintáctica básica y lógica estructural
+  - Registro del YAML generado con fecha, autor y proyecto
+  - Sugerencia de ubicación y nombre de archivo en la jerarquía del sistema
+
+automatización:
+  - Puede integrarse con Make y otros scripts del sistema
+  - Puede generar directamente carpetas y archivos desde terminal
+  - Exportación en tiempo real al entorno VSCode o cloud
+  - Activación condicional por flujo, agente o evento
+
+notas:
+  - No reemplaza la revisión creativa o estratégica final
+  - Puede clonar estructuras anteriores con adaptaciones
+  - Genera logs de actividad para trazabilidad documental
+
+última_actualización: 2025-07-18

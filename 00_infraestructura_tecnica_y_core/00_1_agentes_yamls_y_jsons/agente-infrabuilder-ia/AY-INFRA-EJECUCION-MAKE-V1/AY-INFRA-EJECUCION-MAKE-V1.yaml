@@ -26,7 +26,7 @@ x-validado_por:
   - C1
   - C2
   - CEO
-x-fecha_validacion: 2025-07-16
+x-fecha_validacion: 2025-07-17
 
 paths:
   /infra-builder/ejecutar:
@@ -35,7 +35,7 @@ paths:
       operationId: iniciarEjecucionInfraBuilder
       description: |
         Lanza el proceso completo: lectura de agentes desde tabla Notion, análisis de etiquetas, activación de rutas técnicas, limpieza estructural y control IA.
-        Uso exclusivo del módulo ToolCode (sin ToolSetMultipleVariables).
+        **Uso exclusivo del módulo ToolCode.**
       requestBody:
         required: true
         content:
@@ -92,7 +92,7 @@ x-meta:
   versionamiento_controlado: true
   modulo_usado: ToolCode
   notas: |
-    Esta versión sustituye al modelo anterior basado en ToolSetMultipleVariables y hojas de cálculo Google.
+    Esta versión utiliza **exclusivamente el módulo ToolCode** y sustituye cualquier modelo anterior basado en Set Multiple Variables y hojas de cálculo Google.
     La cantidad de agentes ya supera los 27 y sigue creciendo, por lo que la lógica ahora es 100% dinámica.
     Este documento está diseñado para no requerir actualización constante salvo ajustes técnicos mayores.
     Infraestructura sin jaulas. Abierta, adaptable y regenerativa por diseño.

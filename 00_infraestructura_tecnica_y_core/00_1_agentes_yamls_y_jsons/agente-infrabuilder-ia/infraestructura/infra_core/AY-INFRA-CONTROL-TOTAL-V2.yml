@@ -1,1 +1,257 @@
-(Pega aquí el contenido completo del YAML que ya validamos)
+openapi: 3.1.0
+info:
+  title: InfraBuilder IA – Núcleo de Control Total
+  description: |
+    YAML definitivo para el agente InfraBuilder IA.
+    Este módulo no ejecuta escenarios, sino que audita, controla y completa de forma inteligente:
+      - Documentación faltante (sin duplicar contenido existente)
+      - Archivos YAML incompletos o sin rutas activas
+      - Carpetas vacías o mal ubicadas
+      - Columnas faltantes en Notion para tipos documentales clave
+      - Recomendaciones de agentes funcionales (sin crearlos directamente)
+      - **Generación de planos de escenarios Make (estructura de módulos y rutas).**
+      - **Generación de documentos base con ID, nombre, tipo y enlaces firmados**
+    Aplica reglas avanzadas de lógica proactiva, autocorrección y priorización.
+
+  version: 2.2.0
+
+x-id-oficial: AY-INFRA-CONTROL-TOTAL-V2
+x-tipo: control_estructura_documental
+x-agente: InfraBuilder
+
+x-modo: analisis_y_cierre
+x-validado_por:
+  - InfraBuilder IA
+  - PromptEngineer
+  - C2
+  - CEO
+x-fecha_validacion: 2025-07-17
+
+paths:
+  /infra-builder/control-total:
+    post:
+      summary: Activar módulo de control integral (InfraBuilder IA)
+      operationId: activarControlInfraestructura
+      description: |
+        Escanea todos los agentes y su documentación asociada.
+        Aplica reglas de limpieza, validación y creación estructural sin redundancias.
+        No crea agentes nuevos, solo sugiere cuando hay vacíos funcionales.
+        Crea YAML, carpetas o columnas solo si no existen, nunca si ya están activos o funcionales.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                analizar_agentes:
+                  type: boolean
+                  default: true
+                escanear_ymls:
+                  type: boolean
+                  default: true
+                escanear_columnas_notion:
+                  type: boolean
+                  default: true
+                  description: Detecta columnas faltantes y lanza el módulo de creación automática si es necesario.
+                crear_faltantes:
+                  type: boolean
+                  default: true
+                permitir_recomendaciones_agente:
+                  type: boolean
+                  default: true
+                crear_agentes:
+                  type: boolean
+                  default: false
+                eliminar_contenedores_vacios:
+                  type: boolean
+                  default: true
+                duplicados_permitidos:
+                  type: boolean
+                  default: false
+                activar_notificaciones_criticas:
+                  type: boolean
+                  default: true
+      responses:
+        '200':
+          description: Control ejecutado correctamente (todo bajo reglas)
+        '400':
+          description: Solicitud mal formada
+        '409':
+          description: Intento de duplicación detectado – abortado
+        '500':
+          description: Error interno del sistema (buffer o permisos)
+
+  /infra-builder/generar-diseno-escenario:
+    post:
+      summary: Generar un plano estructurado para un escenario Make
+      operationId: generarDisenoEscenarioMake
+      description: |
+        Basado en una descripción funcional, InfraBuilder IA genera un JSON/YAML
+        con la secuencia ideal de módulos, conexiones y lógicas de rutas
+        sugeridas para un nuevo escenario en Make.
+        No crea el escenario en Make directamente, sino que provee el diseño lógico.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre_escenario:
+                  type: string
+                  description: Nombre descriptivo para el nuevo escenario.
+                descripcion_funcional:
+                  type: string
+                  description: Descripción detallada de lo que debe hacer el escenario (ej. "Publicar productos con imagen y descripción en Etsy y Facebook").
+                agentes_involucrados:
+                  type: array
+                  items:
+                    type: string
+                  description: Lista de IDs de agentes que deben participar en el escenario (ej. "AG-VISUAL-BC-2025-V1", "AG-C1-BC-2025-V1").
+                nivel_detalle:
+                  type: string
+                  enum: [basico, intermedio, avanzado]
+                  default: intermedio
+                  description: Nivel de detalle del plano generado (básico para flujo simple, avanzado para lógica condicional y manejo de errores).
+      responses:
+        '200':
+          description: Diseño de escenario generado con éxito.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  nombre_escenario:
+                    type: string
+                  descripcion_generada:
+                    type: string
+                  plano_escenario:
+                    type: object
+                    description: Estructura JSON/YAML con la secuencia de módulos, conexiones y lógica de rutas.
+                example:
+                  nombre_escenario: "PublicacionAutomatizadaEtsyFacebook"
+                  descripcion_generada: "Este escenario gestiona la creación y publicación de productos en Etsy y Facebook."
+                  plano_escenario:
+                    modulos:
+                      - id: "webhook_inicio"
+                        tipo: "Webhooks > Custom webhook"
+                        notas: "Activador inicial del flujo."
+                      - id: "modulo_c1"
+                        tipo: "ToolCode"
+                        funcion: "Llamar a Agente C1 para generar descripción"
+                        conexion_anterior: "webhook_inicio"
+                      - id: "modulo_visual"
+                        tipo: "ToolCode"
+                        funcion: "Llamar a Agente Visual Premium para generar imagen"
+                        conexion_anterior: "modulo_c1"
+                      - id: "router_publicacion"
+                        tipo: "Router"
+                        conexion_anterior: "modulo_visual"
+                        rutas:
+                          - nombre: "Ruta_Etsy"
+                            condicion: "producto.publicar_etsy == true"
+                            modulos_en_ruta:
+                              - id: "etsy_upload"
+                                tipo: "Etsy > Upload Listing"
+                                conexion_anterior: "router_publicacion"
+                          - nombre: "Ruta_Facebook"
+                            condicion: "producto.publicar_facebook == true"
+                            modulos_en_ruta:
+                              - id: "facebook_post"
+                                tipo: "Facebook > Create a Post"
+                                conexion_anterior: "router_publicacion"
+                    observaciones: "Este es un plano sugerido. Las configuraciones internas de cada módulo deben hacerse manualmente en Make."
+        '400':
+          description: Solicitud mal formada o descripción funcional insuficiente.
+        '500':
+          description: Error interno al generar el diseño.
+
+  /infra-builder/generar-documento-base:
+    post:
+      summary: Generar estructura documental oficial
+      operationId: generarDocumentoBase
+      description: |
+        Genera un documento base estructurado (YAML, Markdown o híbrido) con los campos esenciales:
+        ID oficial, nombre, rol, tipo, agente vinculado, fecha de creación, enlaces internos y firma de sistema.
+        Se utiliza para iniciar nuevos documentos o YAML en VSCode/GitHub.
+        No duplica si ya existe un documento registrado con ese ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id_documento:
+                  type: string
+                nombre:
+                  type: string
+                tipo:
+                  type: string
+                agente_responsable:
+                  type: string
+                incluir_firma:
+                  type: boolean
+                  default: true
+                modo:
+                  type: string
+                  enum: [markdown, yaml, mixto]
+                  default: mixto
+      responses:
+        '200':
+          description: Documento base generado correctamente.
+        '409':
+          description: Documento ya existe.
+        '500':
+          description: Error durante la generación o escritura.
+
+components:
+  schemas:
+    EstadoAgente:
+      type: object
+      properties:
+        id:
+          type: string
+        nombre:
+          type: string
+        estado_documentacion:
+          type: string
+          enum: [completo, incompleto, duplicado, vacío]
+        ymls_vinculados:
+          type: array
+          items:
+            type: string
+        acciones_recomendadas:
+          type: array
+          items:
+            type: string
+
+x-meta:
+  criterios_control:
+    - No se crean agentes automáticamente
+    - No se duplican roles, contextos ni instrucciones
+    - No se crean contenedores vacíos
+    - Sí se crean YAML si no existen
+    - Sí se crean carpetas si no están registradas en buffers
+    - Sí se crean columnas en Notion si faltan propiedades clave
+    - Sí se crean documentos base si faltan entradas oficiales en VSCode o GitHub
+    - Se notifican solo errores críticos
+    - Solo se sugiere creación de nuevos agentes si hay lógica funcional clara
+    - **Genera planos de escenarios Make, pero no los construye en la plataforma.**
+    - **Genera plantillas de documentos con firma, ID, tipo, agente y fecha.**
+  buffers_soportados:
+    - VSCode
+    - GitHub
+    - Notion
+    - Airtable
+  dependencias_excluidas:
+    - Google Drive
+    - Google Sheets
+  observaciones: |
+    Este documento cierra oficialmente la estructura lógica del agente InfraBuilder IA.
+    Cualquier modificación posterior será de tipo evolutivo, no estructural.
+    Infraestructura regenerativa, sin jaulas, con auditoría viva y control adaptativo.
+    Integración habilitada con Notion: si se detectan columnas clave ausentes para la trazabilidad, YAML, buffers u otros, se activa automáticamente el módulo 'AY-INFRA-NOTION-COLUMNAS-V1.yml'.
+
+

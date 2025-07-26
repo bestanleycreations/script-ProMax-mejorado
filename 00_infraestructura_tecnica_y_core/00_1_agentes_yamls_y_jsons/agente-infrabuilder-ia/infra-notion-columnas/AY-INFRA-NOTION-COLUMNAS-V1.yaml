@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: InfraNotion – Gestión Inteligente de Columnas
+  description: |
+    Módulo autónomo para detectar, crear y reutilizar columnas clave en Notion.
+    Evita la creación innecesaria de columnas nuevas, prioriza el aprovechamiento de estructuras ya existentes,
+    y asegura trazabilidad documental total entre Notion, VSCode y GitHub.
+    Funciona bajo control del agente InfraBuilder IA, dentro del ecosistema Bestanley.
+
+  version: 1.0.0
+
+x-id-oficial: AY-INFRA-NOTION-COLUMNAS-V1
+x-tipo: generador_columnas_notion
+x-agente: InfraBuilder
+x-fecha_creacion: 2025-07-17
+x-controlado_por: [InfraBuilder IA, PromptEngineer, C2]
+x-ecosistema: Bestanley | Prology | Universe
+
+paths:
+  /notion/columnas:
+    post:
+      summary: Generar o reutilizar columnas clave en Notion
+      operationId: generarColumnasNotion
+      description: |
+        Escanea todas las tablas Notion registradas en buffers o documentación activa.
+        Identifica columnas ausentes para trazabilidad, automatización o documentación.
+        Reutiliza columnas si existen con propósito compatible.
+        Crea columnas nuevas solo si:
+          - Son esenciales para integración YAML, ID, enlaces o fechas
+          - No se pueden agrupar lógicamente en otra columna
+          - Su ausencia compromete la trazabilidad documental
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                modo:
+                  type: string
+                  enum: [auditar, crear_si_faltan]
+                  default: crear_si_faltan
+                detectar_columnas_reutilizables:
+                  type: boolean
+                  default: true
+                permitir_columnas_agrupadas:
+                  type: boolean
+                  default: true
+                nombre_tabla:
+                  type: string
+                  description: Nombre técnico de la tabla en Notion (ej. Base Agentes GPT, Documentos YAML, Buffers VSCode)
+
+      responses:
+        '200':
+          description: Columnas auditadas o creadas correctamente.
+        '400':
+          description: Solicitud mal formada o tabla no identificada.
+        '500':
+          description: Error interno de buffers o conexión con Notion.
+
+components:
+  schemas:
+    ColumnaSugerida:
+      type: object
+      properties:
+        nombre:
+          type: string
+        tipo:
+          type: string
+        descripcion:
+          type: string
+        reutilizable_desde:
+          type: string
+        justificacion:
+          type: string
+
+x-meta:
+  criterios_creacion:
+    - Solo se crean columnas si no existen
+    - Se propone primero reutilización con lógica flexible
+    - Se agrupan propiedades afines para evitar sobrecarga
+    - Compatible con Make, Airtable, VSCode y GitHub
+    - Soporte para IDs, enlaces, tipos de contenido, fechas, estados
+    - Respeta la estética limpia, profesional y compacta del sistema
+  buffers_soportados:
+    - Notion
+    - GitHub
+    - VSCode
+    - Airtable
+  observaciones: |
+    Este módulo puede activarse desde el YAML principal InfraBuilder IA (CONTROL-TOTAL)
+    o de forma independiente para tareas específicas de limpieza y mantenimiento.
+    Usa lógica predictiva para evitar columnas redundantes.
+    Cuando detecta ausencia de columna crítica (ID, enlace, fecha, tipo), la crea.

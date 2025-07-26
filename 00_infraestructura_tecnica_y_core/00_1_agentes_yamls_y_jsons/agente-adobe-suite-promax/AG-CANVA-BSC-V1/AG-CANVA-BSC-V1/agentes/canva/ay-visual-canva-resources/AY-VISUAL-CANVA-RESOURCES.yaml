@@ -1,0 +1,38 @@
+id_modulo: AY-VISUAL-CANVA-RESOURCES
+tipo: automatizacion_visual
+herramienta: Canva
+agente: AG-CANVA-BSC-V1
+proyecto: Bestanleycreations
+version: V1.0
+
+descripcion: >
+  Módulo dedicado al control, trazabilidad y despliegue de recursos visuales diseñados en Canva. 
+  Optimiza buffers visuales, recursos personalizables, metadatos estratégicos y conexión 
+  con otros agentes creativos del ecosistema. Integrado con InfraBuilder IA.
+
+funciones_activadas:
+  - deteccion_de_recursos_faltantes
+  - optimizacion_de_metadatos (titulo, descripcion, etiquetas)
+  - control_estetico_y_narrativo
+  - trazabilidad_oculta (marcas visuales internas)
+  - integracion_multiformato (Etsy, libros, redes)
+  - defensa_legal_visual
+  - buffers_temporales_anticipados
+
+activado_por:
+  - Agente C0 – CEO
+  - InfraBuilder IA
+  - Agente de Publicación
+  - Solicitudes creativas desde Prompt o flujo manual
+
+dependencias:
+  - Notion
+  - Airtable
+  - Canva Pro
+  - InfraBuilder IA
+
+revisiones:
+  - revision_tecnica_visual: trimestral
+  - control_de_licencias: semestral
+
+estado: activo

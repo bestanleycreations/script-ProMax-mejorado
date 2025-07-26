@@ -1,0 +1,49 @@
+id: CANVA-ID-V1
+nombre: Identificador Estratégico de Recursos Canva
+version: V1
+tipo: modulo_identificador
+proyecto: Bestanleycreations – Visual Premium
+
+descripcion: >
+  Módulo encargado de generar y controlar identificadores únicos para cada recurso visual creado en Canva 
+  dentro del ecosistema Bestanleycreations. Asegura trazabilidad, organización, defensa legal y coordinación 
+  multiformato de plantillas, diseños y assets visuales en producción.
+
+funciones_activadas:
+  - asignacion_de_id_unico_por_tipo_de_recurso
+  - registro_cruzado_en_buffers (Notion, Airtable, Drive local o nube)
+  - trazabilidad_legal_y_comercial
+  - deteccion_de_colisiones_o_redundancias
+  - activacion_de_sellos_visuales_internos
+  - integracion_con_exportadores_y_multiformato
+  - sincronizacion_con_Agente_Canva_y_InfraBuilder
+
+estructura_id:
+  - prefijo_por_tipo (ej. CANVA-TEMP, CANVA-SOCIAL, CANVA-EBOOK)
+  - fecha_creacion
+  - codigo_de_autor
+  - versionado_interno
+
+dependencias:
+  - AG-CANVA-BSC-V1
+  - AY-VISUAL-CANVA-RESOURCES
+  - InfraBuilder IA
+  - Airtable
+  - Notion
+
+activado_por:
+  - creación o duplicación de recurso Canva
+  - exportación a marketplace, red social o paquete editorial
+  - solicitud del Agente CEO o creativo
+
+automatizacion:
+  - generación automática de ID al guardar o registrar nuevo recurso
+  - actualización automática en bases Notion/Airtable
+  - disparo de trazabilidad oculta si aplica (marcas visuales)
+
+notas:
+  - IDs generados deben ser consistentes, únicos y comprensibles para humanos
+  - En caso de edición mayor, se recomienda crear nuevo ID (no sobrescribir)
+
+estado: activo
+ultima_actualizacion: 2025-07-18

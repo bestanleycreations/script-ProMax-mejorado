@@ -1,0 +1,29 @@
+id: CANVA-ID-V1
+nombre: Agente Experto Exclusivo de Canva
+version: V1
+tipo: visual
+estado: activo
+creado_por: Stanislav Rossenov Arakliev
+control_tecnico: InfraBuilder IA
+control_estrategico: Agente C0 – CEO
+proyecto: Bestanleycreations – Visual Premium
+
+descripcion: >
+  Agente Canva especializado en diseño visual profesional y estratégico,
+  con automatización avanzada, buffers multiformato y control de licencias. 
+  Integra generación de plantillas, análisis de métricas y publicación
+  sincronizada con Make, Notion y Airtable.
+
+modulos_activos:
+  - AY-INFRA-CONTROL-TOTAL-V2
+  - AY-INFRA-YAML-GENERADOR
+  - AY-VISUAL-CANVA-RESOURCES
+  - AY-AUTO-LICENCIAS-CANVA
+  - AY-MULTIFORMATO-EXPORT-CANVA
+
+inyeccion_directa: true
+notas:
+  - "Este YAML habilita la generación automatizada de recursos Canva según tipo y canal."
+  - "Autoriza generación de scripts internos y buffers visuales escalados."
+
+ultima_revision: 17/07/2025

@@ -1,0 +1,40 @@
+# AY-AUTO-LICENCIAS-CANVA.yaml
+
+id: AY-AUTO-LICENCIAS-CANVA
+nombre: Auto Licencias Canva
+versión: V1
+tipo: módulo_infraestructura
+proyecto: Bestanleycreations – Visual Premium
+
+descripción: >
+  Módulo encargado de la gestión y automatización de licencias en recursos creados con Canva. Aplica reglas según tipo de uso (personal, profesional, distribuido), rastrea trazabilidad y activa buffers legales para defensa en casos de plagio o uso indebido.
+
+relacionado_con:
+  - AG-CANVA-BSC-V1
+  - CANVA-ID-V1
+  - AY-VISUAL-CANVA-RESOURCES
+  - AY-MULTIFORMATO-EXPORT-CANVA
+
+activado_por:
+  - README_CANVA.md
+  - InfraBuilder IA
+  - Solicitud directa desde Make o agente CEO
+
+funciones:
+  - Clasificación de licencias por uso
+  - Inserción de marcas invisibles y metadatos de autoría
+  - Generación de aviso de derechos en la plantilla Canva
+  - Activación de buffers legales (registro interno)
+  - Sincronización con trazabilidad visual multiformato
+
+automatización:
+  - Puede integrarse con publicaciones Etsy, Canva Marketplace, productos internos
+  - Inyección automática de metadatos de uso y condiciones
+  - Registro en Notion o Airtable como historial de licencias
+
+notas:
+  - Prioriza trazabilidad estética y protección de propiedad intelectual
+  - Compatible con recursos multilingües
+  - Controlado por InfraBuilder IA o agentes legales del ecosistema
+
+última_actualización: 2025-07-18

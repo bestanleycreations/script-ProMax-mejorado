@@ -1,0 +1,44 @@
+id: AY-MULTIFORMATO-EXPORT-CANVA
+nombre: Exportación Multiformato Canva
+versión: V1
+tipo: módulo_infraestructura
+proyecto: Bestanleycreations – Visual Premium
+
+descripción: >
+  Módulo encargado de la exportación automatizada de recursos visuales diseñados en Canva en múltiples formatos (PDF, PNG, JPG, MP4, GIF, SVG, etc.),
+  con adaptación inteligente al canal de destino. Funciona de manera dinámica, sin restricciones de plataforma, permitiendo flujos multicanal para
+  marketplaces, redes sociales, impresión bajo demanda, sitios web, y cualquier nuevo entorno o plataforma definido dentro del ecosistema.
+
+relacionado_con:
+  - AG-CANVA-BSC-V1
+  - CANVA-ID-V1
+  - AY-VISUAL-CANVA-RESOURCES
+  - AY-AUTO-LICENCIAS-CANVA
+
+activado_por:
+  - InfraBuilder IA
+  - README_CANVA.md
+  - Buffer de publicación o solicitud directa de agente editorial/CEO
+
+funciones:
+  - Exportación por canal y formato óptimo
+  - Adaptación de resolución según uso comercial o interno
+  - Control de peso y tamaño para plataformas específicas
+  - Inserción de firma visual, marca de agua o marca invisible
+  - Registro automático de formato, uso y canal en Notion/Airtable
+
+automatización:
+  - Coordinación libre con cualquier flujo de publicación dinámico, sin limitaciones por canal.
+    Incluye, pero no se limita a: marketplaces (Etsy, Canva Marketplace, Creative Market),
+    redes sociales (Instagram, TikTok, YouTube), impresión bajo demanda, sitios web propios, plataformas internas,
+    bundles digitales, canales emergentes y toda salida definida por el ecosistema Bestanleycreations.
+  - Generación anticipada de buffers multiformato
+  - Inyección directa en carpetas locales o almacenamiento en la nube
+  - Activación desde Make, InfraBuilder IA o scripts internos
+
+notas:
+  - Evitar duplicados de exportaciones ya realizadas
+  - Priorizar calidad visual sin comprometer rendimiento
+  - Integrable con módulos de analítica visual y control de rendimiento visual
+
+última_actualización: 2025-07-18

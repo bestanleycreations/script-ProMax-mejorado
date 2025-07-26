@@ -1,0 +1,10 @@
+infra
+01_datos_entrada
+03_recursos_externos
+05_test_debug
+00_infraestructura_tecnica_y_core
+infraestructura
+02_salida_sistema
+.git
+04_logs_registros
+make_scenarios

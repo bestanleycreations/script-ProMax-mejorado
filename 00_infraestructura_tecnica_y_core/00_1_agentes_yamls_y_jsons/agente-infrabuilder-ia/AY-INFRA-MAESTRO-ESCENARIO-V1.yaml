@@ -1,0 +1,302 @@
+# make_scenario_design_1.7x.yaml
+# Este YAML es el plano de diseño del escenario de Make "El Norte 1.7X",
+# destinado a ser procesado por el endpoint /infra-builder/generar-diseno-escenario de InfraBuilder IA.
+# Sirve como la representación técnica y ejecutable de la especificación del README.md.
+
+scenario_make_design:
+  id: "EL_NORTE_1_7X_SCENARIO_MAKE"
+  version: "1.7X"
+  name: "Escenario Central de Publicación PROMAX Final"
+  description: "Diseño técnico para la automatización completa de publicación de contenido creativo en plataformas externas."
+  
+  # Referencia explícita al documento estratégico maestro (tu README.md)
+  # Esto evita duplicar la narrativa o la filosofía, manteniendo el README como fuente única de verdad.
+  strategic_document_ref:
+    name: "El Norte 1.7X – ProMax Final"
+    path: "docs/El_Norte_1.7X_ProMax_Final.md" # Ruta relativa o URL a tu README
+    version: "1.7X"
+    
+  # Los objetivos, ya definidos en el README, se pueden resumir aquí para el contexto de InfraBuilder
+  objectives_summary:
+    - "Garantizar integridad estructural (YAMLs, buffers, columnas)."
+    - "Asegurar ejecución sin errores ni redundancias."
+    - "Optimizar al máximo el consumo de créditos Make."
+
+  # Definición de los Módulos del Escenario Make
+  # Esta es la traducción directa de la PARTE II del README.md
+  modules:
+    - id: "MOD_AUDIT_INICIAL"
+      type: "TOOL_CODE"
+      name: "Auditoría Inicial"
+      order: 1
+      description: "Verifica errores de configuración, huecos y condiciones incumplidas al inicio del flujo."
+      code_ref: "auditoria_inicial.js" # Referencia al archivo de código dentro del Tool > Code
+      failure_action: "terminate_scenario" # Acción si falla: detener ejecución
+
+    - id: "MOD_VAL_ESTRUCTURAL_IB"
+      type: "HTTP"
+      name: "Validación Estructural con InfraBuilder"
+      order: 2
+      endpoint: "/infra-builder/control-total" # Llama a la API de InfraBuilder IA
+      method: "POST"
+      payload_schema_ref: "infra_builder_payloads/control_total_request.json" # Referencia a un esquema de payload si aplica
+      success_condition: "response.status == 200 and response.body.status == 'OK'"
+      failure_action: "detain_or_redirect"
+    
+    - id: "MOD_SEARCH_ENTIDADES"
+      type: "SEARCH"
+      name: "Detección de entidades origen"
+      order: 3
+      description: "Búsqueda general de registros que cumplan una condición (ej. publicados = false)."
+      notion_database_id_ref: "DB_PRODUCTS" # ID de la base de datos de Notion
+      filters: "published_status=false" # Filtros de búsqueda optimizados
+    
+    - id: "MOD_GET_CARGA_ESPECIFICA"
+      type: "GET"
+      name: "Carga específica por ID"
+      order: 4
+      description: "Carga todos los campos necesarios de un único registro, si Search no retornó todo."
+      notion_database_id_ref: "DB_PRODUCTS"
+      item_id_source: "from_MOD_SEARCH_ENTIDADES" # Obtiene ID del módulo anterior
+
+    # Módulos Creativos/Generativos (REUTILIZABLES Y AGNOSTICOS A LA PLATAFORMA FINAL)
+    # Estos módulos usan las aplicaciones de Adobe, Canva, y tus LLMs personalizados.
+    - id: "MOD_GEN_NOMBRES"
+      type: "TOOL_CODE"
+      name: "Generación Nombres / Identificadores"
+      order: 5
+      description: "Genera nombres únicos e identificadores basados en la lógica creativa y marca."
+      code_ref: "generacion_nombres.js"
+      dependencies: ["MOD_GET_CARGA_ESPECIFICA"] 
+      integrates_with: ["Adobe_Acrobat", "LLM_Creative_Names"] # Ejemplos de integración lógica
+
+    - id: "MOD_GEN_DESCRIPCIONES"
+      type: "TOOL_CODE"
+      name: "Generación Descripciones / Titulares"
+      order: 6
+      description: "Crea descripciones y titulares atractivos y optimizados para SEO."
+      code_ref: "generacion_descripciones.js"
+      dependencies: ["MOD_GEN_NOMBRES"]
+      integrates_with: ["LLM_Copywriting", "SEO_Tool_X"] # Ejemplos de integración lógica
+
+    - id: "MOD_GEN_PROMPT_SEO_IMAGEN"
+      type: "TOOL_CODE"
+      name: "Generación de Prompt SEO / Imagen IA"
+      order: 7
+      description: "Genera prompts optimizados para IA de imagen y metadatos SEO para contenido visual."
+      code_ref: "generacion_prompt_ia_seo.js"
+      dependencies: ["MOD_GEN_DESCRIPCIONES"]
+      integrates_with: ["LLM_Image_Prompting", "SEO_Keyword_Tool"]
+
+    - id: "MOD_GEN_HASH_ORIGINALIDAD"
+      type: "TOOL_CODE"
+      name: "Generación Hash / Marcado Originalidad"
+      order: 8
+      description: "Genera un hash único o marca de originalidad para la protección del contenido."
+      code_ref: "generacion_hash_originalidad.js"
+      dependencies: ["MOD_GEN_PROMPT_SEO_IMAGEN"]
+
+    - id: "MOD_VAL_PREVIA_COHESION"
+      type: "TOOL_CODE"
+      name: "Validación Previa / Lógica de Cohesión"
+      order: 9
+      description: "Realiza una validación final de la coherencia de todos los datos generados antes de la validación cruzada."
+      code_ref: "validacion_previa_cohesion.js"
+      dependencies: ["MOD_GEN_HASH_ORIGINALIDAD"]
+
+    - id: "MOD_VAL_CRUZADA_IB"
+      type: "HTTP"
+      name: "Validación cruzada con InfraBuilder"
+      order: 10
+      endpoint: "/infra-builder/validar-combinaciones" # Endpoint específico para validación lógica avanzada
+      method: "POST"
+      payload_schema_ref: "infra_builder_payloads/validar_combinaciones_request.json"
+      success_condition: "response.status == 200 and response.body.isValid == true"
+      failure_action: "notify_and_hold" # Notificar y retener el proceso
+
+    # ROUTER PRINCIPAL DE PUBLICACIÓN (Aquí se decide la plataforma de destino)
+    - id: "MOD_ROUTER_TIPO_PRODUCTO"
+      type: "ROUTER"
+      name: "Rutas por tipo de producto/destino"
+      order: 11
+      description: "Dirige el flujo a sub-rutas específicas basadas en el tipo de producto o plataforma de publicación."
+      routes:
+        - name: "Ruta Productos Etsy"
+          condition: "item.target_platform == 'Etsy'"
+          target_modules_sequence:
+            - id: "MOD_UPDATE_VALIDADO_ETSY"
+            - id: "MOD_PUSH_ETSY"
+        - name: "Ruta Productos Shopify"
+          condition: "item.target_platform == 'Shopify'"
+          target_modules_sequence:
+            - id: "MOD_PREPARACION_SHOPIFY_DATA" # Módulo específico de Shopify si es necesario
+            - id: "MOD_UPDATE_VALIDADO_SHOPIFY"
+            - id: "MOD_PUSH_SHOPIFY"
+        - name: "Ruta Productos Printful"
+          condition: "item.target_platform == 'Printful'"
+          target_modules_sequence:
+            - id: "MOD_GEN_MOCKUP_POD" # Este módulo sí es específico de PoD
+            - id: "MOD_UPDATE_VALIDADO_PRINTFUL"
+            - id: "MOD_PUSH_PRINTFUL"
+        - name: "Ruta Contenido YouTube"
+          condition: "item.target_platform == 'YouTube'"
+          target_modules_sequence:
+            - id: "MOD_PREP_VIDEO_CONTENT" # Módulo específico de preparación de video
+            - id: "MOD_OPTIMIZACION_SEO_YOUTUBE" # Módulo específico de SEO para YouTube
+            - id: "MOD_UPDATE_VALIDADO_YOUTUBE"
+            - id: "MOD_PUSH_YOUTUBE"
+        # Puedes añadir más rutas aquí para otros destinos (ej. web, redes sociales directas)
+
+    # Módulos específicos de Adobe y Canva (integrados vía Tool > Code o directamente si son módulos Make)
+    # Estos ya están "incluidos" en la lógica de los Tool > Code creativos (5-9, 12, 13)
+    # No necesitan un módulo separado aquí si su función está encapsulada.
+    # Si fueran módulos de Make directos, se añadirían en la secuencia general o en rutas específicas.
+    - id: "MOD_PREP_ILUSTRACION_VIDEO"
+      type: "TOOL_CODE"
+      name: "Preparación para ilustración IA / Video"
+      order: 12
+      description: "Prepara los datos y prompts para la generación final de activos visuales o audiovisuales."
+      code_ref: "preparacion_il_video.js"
+      integrates_with: ["Adobe_Creative_Cloud", "Canva_API", "AI_Visual_Generators"] # Puntos de integración
+
+    - id: "MOD_CONTROL_CREATIVO_PACKAGES"
+      type: "TOOL_CODE"
+      name: "Módulo de control creativo (paquetes, combos, bundles)"
+      order: 13
+      description: "Gestiona la lógica de empaquetado, combinación y bundles de productos/contenido."
+      code_ref: "control_creativo_bundles.js"
+      dependencies: ["MOD_VAL_CRUZADA_IB"]
+
+    # Módulos de Actualización de Estado (General para la base de datos de Notion)
+    - id: "MOD_UPDATE_VALIDADO"
+      type: "UPDATE"
+      name: "Marcar como validado (intermedio)"
+      order: 14
+      description: "Actualiza el estado del registro en Notion a 'pre-validado' o 'validado para publicación'."
+      notion_database_id_ref: "DB_PRODUCTS"
+      update_field: "status"
+      update_value: "Pre-validado"
+      # Nota: En un Router, estos Updates pueden ser específicos de ruta (ej. MOD_UPDATE_VALIDADO_ETSY)
+
+    # Módulos de Push Externo (Específicos de plataforma, controlados por Router)
+    # Estos son los módulos que "empujan" a las plataformas finales.
+    # Su ORDEN aquí es solo ilustrativo, el Router (MOD_ROUTER_TIPO_PRODUCTO) los orquestará.
+    - id: "MOD_PUSH_EXTERNO_GENERICO" # Placeholder genérico para el módulo 15 del README
+      type: "HTTP"
+      name: "Push a plataforma externa (genérico)"
+      order: 15 # Este orden es conceptual, el Router lo gestiona
+      description: "Módulo genérico de push que será especializado por el Router."
+      is_generic_placeholder: true # Indica que es un placeholder, su ejecución real depende del Router
+
+    # Módulos específicos de PUSH (gestionados por el Router MOD_ROUTER_TIPO_PRODUCTO)
+    # Estos NO tendrían un "order" lineal aquí, sino que serían referenciados por las rutas del Router.
+    # Son la "novedad" que mencionas.
+    - id: "MOD_PUSH_SHOPIFY"
+      type: "HTTP"
+      name: "Push a Shopify"
+      endpoint: "/api/shopify/create_product"
+      method: "POST"
+      description: "Sube el producto y sus variantes a la tienda Shopify."
+      # Este módulo sería activado por la ruta 'Ruta Productos Shopify' en MOD_ROUTER_TIPO_PRODUCTO
+
+    - id: "MOD_GEN_MOCKUP_POD"
+      type: "TOOL_CODE"
+      name: "Generación de Mockups PoD"
+      description: "Genera mockups de productos para impresión bajo demanda, usando IA o plantillas."
+      code_ref: "generacion_mockups_pod.js"
+      # Este módulo sería activado por la ruta 'Ruta Productos Printful' en MOD_ROUTER_TIPO_PRODUCTO
+
+    - id: "MOD_PUSH_PRINTFUL"
+      type: "HTTP"
+      name: "Push a Printful"
+      endpoint: "/api/printful/submit_product"
+      method: "POST"
+      description: "Envía el producto y los mockups a Printful para configuración y venta."
+      # Este módulo sería activado por la ruta 'Ruta Productos Printful' en MOD_ROUTER_TIPO_PRODUCTO
+
+    - id: "MOD_PREP_VIDEO_CONTENT"
+      type: "TOOL_CODE"
+      name: "Preparación Contenido Video"
+      description: "Prepara el contenido, metadatos y activos para publicación de video."
+      code_ref: "prep_video_content.js"
+      # Activado por 'Ruta Contenido YouTube'
+
+    - id: "MOD_OPTIMIZACION_SEO_YOUTUBE"
+      type: "TOOL_CODE"
+      name: "Optimización SEO YouTube"
+      description: "Aplica técnicas de SEO específicas para títulos, descripciones y tags de YouTube."
+      code_ref: "seo_youtube.js"
+      # Activado por 'Ruta Contenido YouTube'
+
+    - id: "MOD_PUSH_YOUTUBE"
+      type: "HTTP"
+      name: "Publicación en YouTube"
+      endpoint: "/api/youtube/upload_video"
+      method: "POST"
+      description: "Sube el video y sus metadatos al canal de YouTube."
+      # Activado por 'Ruta Contenido YouTube'
+
+
+    # Módulos de Finalización (General)
+    - id: "MOD_UPDATE_PUBLICADO_FINAL"
+      type: "UPDATE"
+      name: "Marcar como publicado final"
+      order: 16 # Este orden es conceptual, será el último UPDATE de cada rama
+      description: "Actualiza el estado final del registro en Notion a 'Publicado'."
+      notion_database_id_ref: "DB_PRODUCTS"
+      update_field: "status"
+      update_value: "Publicado Final"
+      # Nota: Este módulo se ejecutaría en cada rama de publicación del Router
+
+    - id: "MOD_CIERRE_LOG"
+      type: "TOOL_CODE"
+      name: "Cierre de sesión creativa y generación del log final"
+      order: 17
+      description: "Finaliza el proceso, limpia variables y genera un log completo de la ejecución del escenario."
+      code_ref: "cierre_log_final.js"
+      log_level: "info"
+
+  # Consideraciones Técnicas Finales (PARTE IV del README)
+  # Estas se representan como reglas o atributos del diseño del escenario.
+  design_constraints:
+    - no_set_variable_modules: true # Prohíbe Tool > SetVariable
+    - exclusive_tool_code_for_logic: true # Lógica solo en Tool > Code
+    - infra_builder_validation_points: ["structural_check", "cross_validation"] # Puntos de validación de IB
+    - dynamic_scalability_enabled: true # Escenario escalable con Router
+    - creative_integrations_encapsulated: true # IA encapsulada en Tool > Code
+    - trigger_frequency_phases:
+        phase_1_minutes: 200
+        phase_2_minutes: 5
+
+  # Reglas de Inclusión Dinámica de Módulos (para el crecimiento futuro)
+  # Estas reglas son para que InfraBuilder IA sepa cuándo "inyectar" módulos
+  # que no forman parte de la secuencia principal *si no están ya en el Router*.
+  # Si un módulo está en el Router, el Router es quien lo orquesta.
+  dynamic_module_rules:
+    - rule_id: "gestion_precios_bajo_demanda"
+      description: "Activación de módulos para gestión avanzada de precios bajo demanda."
+      activation_criteria:
+        - "product.price_model == 'dynamic_on_demand'"
+        - "current_market_condition == 'volatile'"
+      modules_to_add_on_activation:
+        - id: "MOD_CALC_PRECIO_DEMANDA"
+          type: "TOOL_CODE"
+          name: "Cálculo Precio Dinámico"
+          code_ref: "calc_precio_demanda.js"
+          insertion_point: "after_MOD_VAL_CRUZADA_IB" # Insertar antes del Router principal
+        - id: "MOD_ACT_PRECIO_DB"
+          type: "UPDATE"
+          name: "Actualizar Precio en DB"
+          notion_database_id_ref: "DB_PRODUCTS"
+          update_field: "price"
+          insertion_point: "after_MOD_CALC_PRECIO_DEMANDA"
+
+    # Puedes añadir más reglas aquí para otras necesidades futuras que no encajen en el Router.
+
+  # Referencia al sistema de control total de InfraBuilder IA
+  # Esto informa a InfraBuilder IA cómo se autogestiona esta definición de escenario.
+  infra_control_metadata:
+    aligned_control_yaml: "AY-INFRA-CONTROL-TOTAL-V2"
+    managed_by_infra: true
+    last_validated: "2025-07-18"
+    validation_status: "compliant"
