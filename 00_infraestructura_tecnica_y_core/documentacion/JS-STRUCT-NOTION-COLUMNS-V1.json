@@ -1,0 +1,46 @@
+{
+  "cabecera": {
+    "sistema": "BestanleyCreations – Infraestructura 24/7",
+    "codigo_modulo": "JS-STRUCT-NOTION-COLUMNS-V1",
+    "carpeta_destino": "./00_infraestructura_tecnica_y_core/documentacion",
+    "fecha_creacion": "2025-07-27",
+    "version": "v1.0.0",
+    "estado": "ACTIVO ✅"
+  },
+  "descripcion": "Documento técnico que define la estructura estándar de columnas para bases de datos Notion conectadas con Make. Asegura compatibilidad total para lectura, escritura y automatización de buffers IA.",
+  "estructura": {
+    "modo_buffer": "true",
+    "target_repo": "Notion",
+    "tipo_estructura": "json_columnas_notion",
+    "columnas_base": [
+      "ID Único Interno",
+      "Nombre Documento",
+      "Tipo de Contenido",
+      "Documento base",
+      "Estado",
+      "Función del agente / Doc técnico",
+      "Proyecto",
+      "Plataforma de destino",
+      "Escenario Make Relacionado",
+      "Última Modificación",
+      "Agente Responsable",
+      "Ruta Carpeta Final",
+      "Nombre Archivo",
+      "Versión Documento",
+      "Notas Adicionales"
+    ],
+    "acciones": {
+      "crear_si_no_existe": true,
+      "sincronizar_en_buffers": true
+    }
+  },
+  "meta": {
+    "id_oficial": "JS-STRUCT-NOTION-COLUMNS-V1",
+    "tipo": "json_columnas_notion",
+    "validado_por": ["InfraBuilder IA", "PromptEngineer", "C2"],
+    "proyectos_relacionados": ["Prology by Bestanley", "Bestanley Universe", "Bestanleycreations"],
+    "uso_esperado": "referencia universal para módulos Make y estandarización técnica en buffers IA",
+    "reutilizable": true,
+    "etiquetas": ["Infraestructura", "Columnas", "Notion", "Buffers", "JSON", "Make"]
+  }
+}

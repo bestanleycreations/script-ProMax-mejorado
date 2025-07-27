@@ -1,0 +1,45 @@
+# INFRAESTRUCTURA TÉCNICA CONEXIÓN NOTION → GITHUB/VSCode
+
+{
+  "cabecera": {
+    "sistema": "BestanleyCreations – Infraestructura 24/7",
+    "codigo_modulo": "JS-TECH-BD-NOTIONBD-V1",
+    "carpeta_destino": "00_infraestructura_tecnica_y_core/documentacion",
+    "fecha_creacion": "2025-07-27",
+    "version": "v1.0.0",
+    "estado": "ACTIVO ✅"
+  },
+  "descripcion": "JSON técnico maestro para estructura de conexión entre buffers internos Notion, GitHub y VSCode. Define el ID estructural de documentos, mapea carpetas de destino y regula el comportamiento de lectura/actualización automática desde Make.",
+  "estructura": {
+    "modo_buffer": "true",
+    "origen_dato": "Notion",
+    "target_repo": "GitHub / VSCode",
+    "tipo_estructura": "infraestructura_tecnica_json",
+    "columnas_base": 28,
+    "lectura_columnas": [
+      "ID Único Interno",
+      "Nombre Documento",
+      "Tipo de Contenido",
+      "Documento base",
+      "Estado",
+      "Función del agente / Doc técnico",
+      "Proyecto",
+      "Plataforma de destino"
+    ],
+    "acciones": {
+      "validar_si_existe": true,
+      "crear_si_no_existe": true,
+      "registrar_en_fila": "28",
+      "actualizar_estado": "ACTIVO"
+    }
+  },
+  "meta": {
+    "id_oficial": "JS-TECH-BD-NOTIONBD-V1",
+    "tipo": "json_operativo",
+    "validado_por": ["InfraBuilder IA", "PromptEngineer", "C2"],
+    "proyectos_relacionados": ["Prology by Bestanley", "Bestanley Universe", "Bestanleycreations"],
+    "uso_esperado": "automatización infraestructura buffers IA",
+    "reutilizable": true,
+    "etiquetas": ["Infraestructura", "Buffer", "JSON", "Make", "Notion", "GitHub"]
+  }
+}
