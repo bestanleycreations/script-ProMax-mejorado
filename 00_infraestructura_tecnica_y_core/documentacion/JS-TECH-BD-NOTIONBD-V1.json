@@ -1,5 +1,3 @@
-# INFRAESTRUCTURA TÉCNICA CONEXIÓN NOTION → GITHUB/VSCode
-
 {
   "cabecera": {
     "sistema": "BestanleyCreations – Infraestructura 24/7",
@@ -36,10 +34,25 @@
   "meta": {
     "id_oficial": "JS-TECH-BD-NOTIONBD-V1",
     "tipo": "json_operativo",
-    "validado_por": ["InfraBuilder IA", "PromptEngineer", "C2"],
-    "proyectos_relacionados": ["Prology by Bestanley", "Bestanley Universe", "Bestanleycreations"],
+    "validado_por": [
+      "InfraBuilder IA",
+      "PromptEngineer",
+      "C2"
+    ],
+    "proyectos_relacionados": [
+      "Prology by Bestanley",
+      "Bestanley Universe",
+      "Bestanleycreations"
+    ],
     "uso_esperado": "automatización infraestructura buffers IA",
     "reutilizable": true,
-    "etiquetas": ["Infraestructura", "Buffer", "JSON", "Make", "Notion", "GitHub"]
+    "etiquetas": [
+      "Infraestructura",
+      "Buffer",
+      "JSON",
+      "Make",
+      "Notion",
+      "GitHub"
+    ]
   }
 }
