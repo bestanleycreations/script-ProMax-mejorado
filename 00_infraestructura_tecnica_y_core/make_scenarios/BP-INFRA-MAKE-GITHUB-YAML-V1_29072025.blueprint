@@ -1,0 +1,331 @@
+{
+
+    "name": "Integration HTTP",
+
+    "flow": [
+
+        {
+
+            "id": 1,
+
+            "module": "http:ActionSendData",
+
+            "version": 3,
+
+            "parameters": {
+
+                "handleErrors": true,
+
+                "useNewZLibDeCompress": true
+
+            },
+
+            "mapper": {
+
+                "ca": "",
+
+                "qs": [],
+
+                "url": "https://raw.githubusercontent.com/bestanleycreations/script-ProMax-mejorado/main/00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-infrabuilder-ia/AY-INFRA-BC-2025‑V1/AY‑INFRA‑BC‑2025‑V1.yaml",
+
+                "gzip": true,
+
+                "method": "get",
+
+                "headers": [
+
+                    {
+
+                        "name": "Authorization",
+
+                        "value": "Bearer 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"
+
+                    }
+
+                ],
+
+                "timeout": "",
+
+                "useMtls": false,
+
+                "authPass": "",
+
+                "authUser": "",
+
+                "bodyType": "",
+
+                "serializeUrl": false,
+
+                "shareCookies": false,
+
+                "parseResponse": true,
+
+                "followRedirect": true,
+
+                "useQuerystring": false,
+
+                "followAllRedirects": true,
+
+                "rejectUnauthorized": true
+
+            },
+
+            "metadata": {
+
+                "designer": {
+
+                    "x": 0,
+
+                    "y": 0
+
+                },
+
+                "restore": {
+
+                    "expect": {
+
+                        "qs": {
+
+                            "mode": "chose"
+
+                        },
+
+                        "method": {
+
+                            "mode": "chose",
+
+                            "label": "GET"
+
+                        },
+
+                        "headers": {
+
+                            "mode": "chose",
+
+                            "items": [
+
+                                null
+
+                            ]
+
+                        },
+
+                        "bodyType": {
+
+                            "label": "Empty"
+
+                        }
+
+                    }
+
+                },
+
+                "parameters": [
+
+                    {
+
+                        "name": "handleErrors",
+
+                        "type": "boolean",
+
+                        "label": "Evaluate all states as errors (except for 2xx and 3xx )",
+
+                        "required": true
+
+                    },
+
+                    {
+
+                        "name": "useNewZLibDeCompress",
+
+                        "type": "hidden"
+
+                    }
+
+                ],
+
+                "expect": [
+
+                    {
+
+                        "name": "url",
+
+                        "type": "url",
+
+                        "label": "URL",
+
+                        "required": true
+
+                    },
+
+                    {
+
+                        "name": "serializeUrl",
+
+                        "type": "boolean",
+
+                        "label": "Serialize URL",
+
+                        "required": true
+
+                    },
+
+                    {
+
+                        "name": "method",
+
+                        "type": "select",
+
+                        "label": "Method",
+
+                        "required": true,
+
+                        "validate": {
+
+                            "enum": [
+
+                                "get",
+
+                                "head",
+
+                                "post",
+
+                                "put",
+
+                                "patch",
+
+                                "delete",
+
+                                "options"
+
+                            ]
+
+                        }
+
+                    },
+
+                    {
+
+                        "name": "headers",
+
+                        "spec": [
+
+                            {
+
+                                "name": "name",
+
+                                "type": "text",
+
+                                "label": "Name",
+
+                                "required": true
+
+                            },
+
+                            {
+
+                                "name": "value",
+
+                                "type": "text",
+
+                                "label": "Value"
+
+                            }
+
+                        ],
+
+                        "type": "array",
+
+                        "label": "Headers"
+
+                    },
+
+                    {
+
+                        "name": "qs",
+
+                        "spec": [
+
+                            {
+
+                                "name": "name",
+
+                                "type": "text",
+
+                                "label": "Name",
+
+                                "required": true
+
+                            },
+
+                            {
+
+                                "name": "value",
+
+                                "type": "text",
+
+                                "label": "Value"
+
+                            }
+
+                        ],
+
+                        "type": "array",
+
+                        "label": "Query String"
+
+                    },
+
+                    ...
+
+                ]
+
+            }
+
+        }
+
+    ],
+
+    "metadata": {
+
+        "instant": false,
+
+        "version": 1,
+
+        "scenario": {
+
+            "roundtrips": 1,
+
+            "maxErrors": 3,
+
+            "autoCommit": true,
+
+            "autoCommitTriggerLast": true,
+
+            "sequential": false,
+
+            "slots": null,
+
+            "confidential": false,
+
+            "dataloss": false,
+
+            "dlq": false,
+
+            "freshVariables": false
+
+        },
+
+        "designer": {
+
+            "orphans": []
+
+        },
+
+        "zone": "eu2.make.com",
+
+        "notes": []
+
+    }
+
+}
