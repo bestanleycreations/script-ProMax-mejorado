@@ -1,0 +1,8 @@
+services:
+  - name: script-promax-mejorado
+    type: web
+    env: python
+    branch: main
+    rootDir: 00_infraestructura_tecnica_y_core/00_1_agentes_yamls_y_jsons/agente-infrabuilder-ia/infraestructura/infra_core/notion
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn PY_HANDLER_NOTION_COLUMNS_V1:app --bind 0.0.0.0:$PORT
