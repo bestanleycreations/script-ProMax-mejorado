@@ -100,9 +100,22 @@ def crear_etiquetas():
 
     return jsonify({"resultado": mensajes}), 200
 
-@app.route("/crear_documentacion", methods=["POST"])
-def crear_documentacion():
-    return jsonify({"mensaje": "Función crear_documentacion en preparación."}), 200
+@app.route("/actualizar_documentacion", methods=["PATCH"])
+def actualizar_documentacion():
+    data = request.json
+    agent_id = data.get("agent_id")
+    campos = data.get("campos")
+    
+    if not agent_id or not campos:
+        return jsonify({"error": "Faltan 'agent_id' o 'campos'."}), 400
+
+    url = f"https://api.notion.com/v1/pages/{agent_id}"
+    resp = requests.patch(url, headers=HEADERS, json={"properties": campos})
+
+    if resp.status_code == 200:
+        return jsonify({"status": "documentacion actualizada", "agent_id": agent_id}), 200
+    else:
+        return jsonify({"error": resp.text}), resp.status_code
 
 @app.route("/acciones_logicas", methods=["POST"])
 def acciones_logicas():
