@@ -1,0 +1,30 @@
+{
+  "plantilla_manifiesto": {
+    "titulo": "📦 Plantilla de Manifiesto – InfraBuilder IA",
+    "uso": "Duplicar y rellenar para nuevos manifiestos estructurales.",
+    "estructura": {
+      "pasado": {
+        "descripcion": "",
+        "hitos_clave": []
+      },
+      "presente": {
+        "descripcion": "",
+        "funciones_actuales": []
+      },
+      "futuro": {
+        "descripcion": "",
+        "proyecciones": []
+      }
+    },
+    "modo_de_actualizacion": {
+      "tipo": "PATCH",
+      "frecuencia_recomendada": "Tras cada hito importante.",
+      "automatizado": true,
+      "descripcion": "Este documento debe actualizarse constantemente como referencia viva del sistema."
+    },
+    "prioridad": "ALTA",
+    "estado": "borrador",
+    "autor": "Infra Builder IA",
+    "version": "1.0.0"
+  }
+}
