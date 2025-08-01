@@ -69,35 +69,30 @@ def crear_etiquetas():
         headers=HEADERS
     )
     props = resp.json().get("properties", {})
-
     mensajes = {}
+
     for campo, lista in etiquetas.items():
-        # verifica existencia de la propiedad
         prop = props.get(campo)
         if not prop:
             mensajes[campo] = "Campo no existe"
             continue
+
         tipo = prop.get("type")
         if tipo not in ["select", "multi_select"]:
             mensajes[campo] = f"Tipo no válido: {tipo}"
             continue
 
-        # Obtener opciones actuales
-        opciones = []
-        if tipo == "select":
-            opciones = prop["select"].get("options", [])
-        elif tipo == "multi_select":
-            opciones = prop["multi_select"].get("options", [])
-
-        nombres_existentes = [o["name"] for o in opciones]
+        opciones_existentes = prop[tipo].get("options", [])
+        nombres_existentes = [opt["name"] for opt in opciones_existentes]
         nuevas = [x for x in lista if x not in nombres_existentes]
+
         if nuevas:
-            opciones.extend([{"name": x} for x in nuevas])
-            update = {"properties": {campo: {tipo: {"options": opciones}}}}
+            nuevas_opciones = opciones_existentes + [{"name": x} for x in nuevas]
+            patch = {"properties": {campo: {tipo: {"options": nuevas_opciones}}}}
             requests.patch(
                 f"https://api.notion.com/v1/databases/{NOTION_DATABASE_ID}",
                 headers=HEADERS,
-                json=update
+                json=patch
             )
             mensajes[campo] = f"{len(nuevas)} etiquetas creadas"
         else:
