@@ -42,21 +42,6 @@ def crear_columnas():
             result["creadas"].append(col)
     return jsonify(result), 200
 
-@app.route("/actualizar_entrada", methods=["PATCH"])
-def actualizar_entrada():
-    data = request.json
-    page_id = data.get("page_id")
-    campos = data.get("campos")
-    if not page_id or not campos:
-        return jsonify({"error": "Faltan 'page_id' o 'campos' en la solicitud."}), 400
-
-    url = f"https://api.notion.com/v1/pages/{page_id}"
-    resp = requests.patch(url, headers=HEADERS, json={"properties": campos})
-    if resp.status_code == 200:
-        return jsonify({"status": "actualizado", "page_id": page_id}), 200
-    else:
-        return jsonify({"error": resp.text}), resp.status_code
-
 @app.route("/crear_etiquetas", methods=["POST"])
 def crear_etiquetas():
     data = request.json
@@ -100,6 +85,21 @@ def crear_etiquetas():
 
     return jsonify({"resultado": mensajes}), 200
 
+@app.route("/actualizar_entrada", methods=["PATCH"])
+def actualizar_entrada():
+    data = request.json
+    page_id = data.get("page_id")
+    campos = data.get("campos")
+    if not page_id or not campos:
+        return jsonify({"error": "Faltan 'page_id' o 'campos' en la solicitud."}), 400
+
+    url = f"https://api.notion.com/v1/pages/{page_id}"
+    resp = requests.patch(url, headers=HEADERS, json={"properties": campos})
+    if resp.status_code == 200:
+        return jsonify({"status": "actualizado", "page_id": page_id}), 200
+    else:
+        return jsonify({"error": resp.text}), resp.status_code
+
 @app.route("/actualizar_documentacion", methods=["PATCH"])
 def actualizar_documentacion():
     data = request.json
@@ -117,9 +117,33 @@ def actualizar_documentacion():
     else:
         return jsonify({"error": resp.text}), resp.status_code
 
+@app.route("/crear_documentacion", methods=["POST"])
+def crear_documentacion():
+    data = request.json
+    campos = data.get("campos")
+    
+    if not campos:
+        return jsonify({"error": "Faltan 'campos'."}), 400
+
+    url = "https://api.notion.com/v1/pages"
+    payload = {
+        "parent": {"database_id": NOTION_DATABASE_ID},
+        "properties": campos
+    }
+
+    resp = requests.post(url, headers=HEADERS, json=payload)
+    if resp.status_code == 200:
+        return jsonify({"status": "documentacion creada"}), 200
+    else:
+        return jsonify({"error": resp.text}), resp.status_code
+
 @app.route("/acciones_logicas", methods=["POST"])
 def acciones_logicas():
     return jsonify({"mensaje": "Función acciones_logicas en preparación."}), 200
+
+@app.route("/acciones_logicas_especificas", methods=["PATCH"])
+def acciones_logicas_especificas():
+    return jsonify({"mensaje": "Función acciones_logicas_especificas en preparación."}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
