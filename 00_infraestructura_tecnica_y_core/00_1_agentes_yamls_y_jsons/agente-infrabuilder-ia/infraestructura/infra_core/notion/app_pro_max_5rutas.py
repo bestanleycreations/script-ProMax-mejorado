@@ -168,5 +168,26 @@ def handler_patch_logica_y_agentes_promax():
         "condiciones_seguridad": seguridad
     }), 200
 
+@app.route("/handler_post_logica_y_agentes_promax", methods=["POST"])
+def handler_post_logica_y_agentes_promax():
+    data = request.json
+
+    campos = data.get("campos")
+    if not campos:
+        return jsonify({"error": "Faltan 'campos' en la solicitud."}), 400
+
+    payload = {
+        "parent": {"database_id": NOTION_DATABASE_ID},
+        "properties": campos
+    }
+
+    url = "https://api.notion.com/v1/pages"
+    resp = requests.post(url, headers=HEADERS, json=payload)
+
+    if resp.status_code == 200:
+        return jsonify({"status": "agente creado y registrado", "campos": campos}), 200
+    else:
+        return jsonify({"error": resp.text}), resp.status_code
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
