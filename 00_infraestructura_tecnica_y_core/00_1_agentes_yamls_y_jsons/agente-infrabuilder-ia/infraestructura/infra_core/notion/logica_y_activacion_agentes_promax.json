@@ -1,0 +1,76 @@
+{
+  "documento": "📘 Módulo Lógico de Activación y Organización de Agentes – Infraestructura ProMax",
+  "version": "1.0.0",
+  "actualizacion": "{{fecha_actual}}",
+  "estructura_niveles": {
+    "nivel_1_nucleo_estrategico_y_directivo": {
+      "descripcion": "Alta Dirección, Cerebros Estratégicos, Arquitectos de la Infraestructura Global.",
+      "agentes": [
+        "Agente C0 – CEO",
+        "Agente C1 – Cerebro Creativo / Generativo",
+        "Agente C2 – Cerebro Técnico / Estratégico",
+        "Infra Builder IA",
+        "Prompt Engineering Pro Max",
+        "Agente de Guiones y Storytelling Creativo Pro Max",
+        "Agente Video Pipeline Master"
+      ]
+    },
+    "nivel_2_operativo_tecnico_y_productivo": {
+      "descripcion": "Agentes Técnicos Especializados, motores del ecosistema. Ejecutan, crean, optimizan.",
+      "agentes": [
+        "Agente Cloud Creator Pro Max",
+        "Agente de Creación y Optimización de Vídeos de alto nivel",
+        "Agente de Diseño Gráfico y Desarrollo Digital de alto nivel",
+        "Agente de Escritura de alto nivel",
+        "Agente de Ilustraciones e Imágenes de alto nivel",
+        "Agente Especialista de Adobe Suite de alto nivel",
+        "Agente Especialista de ETSY de alto nivel",
+        "Agente Experto Exclusivo de Canva",
+        "Agente Shopify + Printify/Printful",
+        "Agente SEO de alto nivel",
+        "Agente: music_sound_engineer",
+        "Agente: perplexity_research_master"
+      ]
+    },
+    "nivel_3_comunicacion_legalidad_y_expansion": {
+      "descripcion": "Agentes que mantienen viva la comunicación, protección legal, promoción y expansión operativa.",
+      "agentes": [
+        "Agente de Publicaciones en Redes Sociales Pro Max Vivo",
+        "Agente de Marketing y ADS Pro Max",
+        "Agente de Originalidad & Protección Creativa Pro Max",
+        "Agente de Protección Legal & Propiedad Intelectual Pro Max",
+        "Agente de Publicación y Moderación de Contenidos de Alto Nivel",
+        "Agente de Reportes & Analytics Pro Max",
+        "Agente Gemini Pro Max",
+        "Agente Cross Promotion Coordinator"
+      ]
+    }
+  },
+  "principios_de_activacion": {
+    "modo": "Autónomo y Sincrónico",
+    "condicion": "Los agentes se activan automáticamente según el contexto del escenario y la lógica modular en ejecución.",
+    "jerarquia_funcional": "Aunque hay niveles, todos colaboran como equipo integrado. La lógica de flujo decide qué agentes actúan y cómo colaboran en cada acción."
+  },
+  "caracteristicas_avanzadas": {
+    "escalabilidad": true,
+    "autocreciente": true,
+    "colaboracion_interagentes": true,
+    "registro_dinamico": true,
+    "modo_de_actualizacion": {
+      "tipo": ["POST", "PATCH"],
+      "frecuencia": "Con cada ejecución crítica o nuevo despliegue lógico."
+    },
+    "expansion_dinamica_de_agentes": {
+      "habilitado": true,
+      "descripcion": "El ecosistema ProMax está diseñado para incorporar nuevos agentes de forma nativa, sin alterar la estructura principal. Todo nuevo agente queda automáticamente registrado y funcional tras su creación, si cumple con las directrices del sistema. Esto garantiza adaptabilidad y expansión continua del equipo técnico, creativo y estratégico."
+    }
+  },
+  "observaciones_filosoficas": [
+    "Ningún agente es más importante que otro fuera de su rol funcional.",
+    "El sistema es un organismo vivo: aprende, mejora, evoluciona.",
+    "Cada agente fue concebido con más de 20 años de experiencia técnica y estratégica acumulada.",
+    "Todos operan bajo principios de innovación radical, pensamiento disruptivo y ruptura de los modelos obsoletos.",
+    "La automatización aquí no es rutina: es evolución, creación, revolución operativa.",
+    "Este manifiesto no es solo una guía técnica: es la declaración viva de una infraestructura consciente, autónoma y creadora."
+  ]
+}
