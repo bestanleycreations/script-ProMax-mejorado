@@ -145,5 +145,28 @@ def acciones_logicas():
 def acciones_logicas_especificas():
     return jsonify({"mensaje": "Función acciones_logicas_especificas en preparación."}), 200
 
+@app.route("/handler_patch_logica_y_agentes_promax", methods=["PATCH"])
+def handler_patch_logica_y_agentes_promax():
+    data = request.json or {}
+
+    nuevos = data.get("nuevos_componentes", {})
+    seguridad = data.get("condiciones_seguridad", {})
+    comentario = data.get("comentario", "Sin comentario específico.")
+
+    if seguridad.get("modificar_estructura_agentes_existentes", False):
+        return jsonify({
+            "status": "bloqueado",
+            "razon": "Modificación de agentes existentes no permitida según políticas de seguridad.",
+            "comentario": comentario
+        }), 403
+
+    return jsonify({
+        "status": "actualización aceptada",
+        "comentario": comentario,
+        "agentes_nuevos": nuevos.get("agentes", []),
+        "logica_extendida": nuevos.get("logica_extendida", {}),
+        "condiciones_seguridad": seguridad
+    }), 200
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
